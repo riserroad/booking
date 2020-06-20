@@ -2,21 +2,32 @@
 
 {# cette page est la home page, elle doit afficher la liste des Event #}
 
-{% block title %}Hello MainController!{% endblock %}
+{% block title %}Event{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/ponche/prog/riserroad/booking/src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/ponche/prog/riserroad/booking/templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a></code></li>
-    </ul>
+<div>
+
+    {% if app.user %}
+    {# on affiche les information de l'utilisateur #}
+    <div>   
+        <span><strong>Prénom : </strong> {{ app.user.firstname }}</span><br/>
+        <span><strong>Noms : </strong> {{ app.user.lastname|upper }}</span>
+    </div>
+    {% endif %}
+
+
+    <h1>Liste des Events</h2>
+    
+    
+        {% for event in events %}
+        <div>
+            <h2>{{ event.name }}</h2>
+            <p>{{ event.description }}</h2>
+            <a href="{{ path('event', {event: event.id}) }}" >voir event en détail </a>
+        </div>
+        {% endfor %}
+    
 </div>
 {% endblock %}
