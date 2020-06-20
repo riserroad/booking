@@ -42,7 +42,7 @@ class Event
     /**
      * @ORM\Column(type="integer")
      */
-    private $limitPartcipant;
+    private $limitParticipant;
 
     /**
      * @ORM\OneToMany(targetEntity=Message::class, mappedBy="event", orphanRemoval=true)
@@ -113,14 +113,14 @@ class Event
         return $this;
     }
 
-    public function getLimitPartcipant(): ?int
+    public function getLimitParticipant(): ?int
     {
-        return $this->limitPartcipant;
+        return $this->limitParticipant;
     }
 
-    public function setLimitPartcipant(int $limitPartcipant): self
+    public function setLimitParticipant(int $limitPartcipant): self
     {
-        $this->limitPartcipant = $limitPartcipant;
+        $this->limitParticipant = $limitParticipant;
 
         return $this;
     }

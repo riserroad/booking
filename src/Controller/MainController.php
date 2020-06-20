@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Event; 
 
 class MainController extends AbstractController
 {
@@ -17,10 +18,12 @@ class MainController extends AbstractController
         ]);
     }
     /**
-     * @Route("/event", name="event")
+     * @Route("/event/{event}", name="event")
      */
-    public function event()
+    public function event(Event $event)
     {
-        return $this->render('main/event.html.twig'); 
+        return $this->render('main/event.html.twig', [
+            'event' => $event,
+        ]); 
     }
 }
