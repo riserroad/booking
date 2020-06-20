@@ -37,7 +37,7 @@ class Event
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dateLimitRegristation;
+    private $dateLimitRegistration;
 
     /**
      * @ORM\Column(type="integer")
@@ -103,12 +103,12 @@ class Event
 
     public function getDateLimitRegistration(): ?\DateTimeInterface
     {
-        return $this->dateLimitRegristration;
+        return $this->dateLimitRegistration;
     }
 
-    public function setDateLimitSubcriber(\DateTimeInterface $dateLimitSubcriber): self
+    public function setDateLimitRegistration(\DateTimeInterface $dateLimitRegistration): self
     {
-        $this->dateLimitSubcriber = $dateLimitSubcriber;
+        $this->dateLimitRegistration = $dateLimitRegistration;
 
         return $this;
     }
