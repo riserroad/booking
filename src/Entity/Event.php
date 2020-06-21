@@ -118,7 +118,7 @@ class Event
         return $this->limitParticipant;
     }
 
-    public function setLimitParticipant(int $limitPartcipant): self
+    public function setLimitParticipant(int $limitParticipant): self
     {
         $this->limitParticipant = $limitParticipant;
 
