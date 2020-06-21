@@ -10,6 +10,19 @@
     <span><strong>Prénom : </strong>{{ app.user.firstname }}</span><br/>
     <span><strong>Nom : </strong>{{ app.user.lastname }}</span><br/>
     <span><strong>Email : </strong>{{ app.user.email }}</span><br/>
+
+    <span><strong>Avatar : </strong></span>
+    <img id="avatar" src="https://secure.gravatar.com/avatar/{{ hashusergravatar }}" alt="photo-{{ app.user.firstname }}">
+
+    {# mon hash : a6ccd52ac092b6548a22496c995670fd #}
+
+{% endblock %}
+
+{% block javascripts %}
+{# juste pour le test #}
+<script>
     
+</script>
+
 {% endblock %}
 

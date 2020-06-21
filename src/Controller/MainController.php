@@ -97,8 +97,12 @@ class MainController extends AbstractController
         $user = $this->getUser(); 
         if ($user)
         {
+            $hashUserGravatar = md5($user->getEmail());
+            dump($hashUserGravatar); 
             // utilisateur est connecté, on affiche la page profile.
-            return $this->render('main/profile.html.twig'); 
+            return $this->render('main/profile.html.twig', [
+                'hashusergravatar' => $hashUserGravatar, 
+            ]); 
         }
         // l'utilsateur n'est pas connecté, on le redirige vers la page de login 
         return $this->redirectToRoute('app_login');
