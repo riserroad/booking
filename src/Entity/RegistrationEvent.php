@@ -39,6 +39,12 @@ class RegistrationEvent
      */
     private $isConfirmed;
 
+    public function __construct()
+    {
+        $this->isConfirmed = false; 
+        $this->registrationDate = new \DateTime(); 
+    }
+
     public function getId(): ?int
     {
         return $this->id;
