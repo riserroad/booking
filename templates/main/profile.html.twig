@@ -1,0 +1,15 @@
+{# ceci est la page profile, elle contiendra tous les information de l'utilisateur : prénom, nom, mail, modification du MDP #}
+
+{% extends "base.html.twig" %}
+
+{% block title %}Profile{% endblock %}  
+
+{% block body %}
+    <h1>Page profile</h1>
+    
+    <span><strong>Prénom : </strong>{{ app.user.firstname }}</span><br/>
+    <span><strong>Nom : </strong>{{ app.user.lastname }}</span><br/>
+    <span><strong>Email : </strong>{{ app.user.email }}</span><br/>
+    
+{% endblock %}
+
