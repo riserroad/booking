@@ -4,9 +4,15 @@ namespace App\Entity;
 
 use App\Repository\RegistrationEventRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity; 
 
 /**
  * @ORM\Entity(repositoryClass=RegistrationEventRepository::class)
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"user_id", "event_id"})})
+ * @UniqueEntity(
+ *      fields={"user", "event"},
+ *      message="Vous etes déja inscrit à l'evenement"
+ * )
  */
 class RegistrationEvent
 {
