@@ -11,6 +11,7 @@ use App\Repository\RegistrationEventRepository;
 use DateTime;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class MainController extends AbstractController
 {
@@ -41,7 +42,7 @@ class MainController extends AbstractController
     /**
      * @Route("/registration_event/{event}", name="registration_event")
      */
-    public function registrationEvent(Event $event,  RegistrationEventRepository $repoRegistrationEvent)
+    public function registrationEvent(Event $event,  RegistrationEventRepository $repoRegistrationEvent, ValidatorInterface $validator )
     {
         // cette route permet de realisé l'inscription. 
 
@@ -69,17 +70,28 @@ class MainController extends AbstractController
                 $registrationEvent->setIsConfirmed(true); 
             }
 
-            // on enregistre inscription dans la BDD
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($registrationEvent);
-            $entityManager->flush(); 
+            // on vérifie les donnée 
+            $errors = $validator->validate($registrationEvent); 
 
-            // on envoie un mail à l'utilisateur pour la confirmation d'inscription 
-            // mailManager->sendComfirmation($registrationEvent)
+            dump($errors); 
 
-            // on crére le message flash pour afficher sur la page suivante. 
+            if (count($errors) == 0)
+            {
+                // on enregistre inscription dans la BDD
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($registrationEvent);
+                $entityManager->flush(); 
 
-            return $this->render('base.html.twig'); 
+                // on envoie un mail à l'utilisateur pour la confirmation d'inscription 
+                // mailManager->sendComfirmation($registrationEvent)
+
+                // on crére le message flash pour afficher sur la page suivante. 
+            }
+            
+
+            return $this->render('main/event.html.twig', [
+                'event' => $event,
+            ]); 
             
         }
 
