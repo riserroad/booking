@@ -58,6 +58,9 @@ class Event
     {
         $this->messages = new ArrayCollection();
         $this->registrationEvents = new ArrayCollection();
+        $this->dateEvent = new \DateTime();
+        $this->dateLimitRegistration = new \DateTime(); 
+        $this->limitParticipant = 10;
     }
 
     public function __toString()
