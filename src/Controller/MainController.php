@@ -82,10 +82,16 @@ class MainController extends AbstractController
                 $entityManager->persist($registrationEvent);
                 $entityManager->flush(); 
 
+                // message flash 
+                $this->addFlash('notice', 'Tu es inscrit à l\'event');
+
                 // on envoie un mail à l'utilisateur pour la confirmation d'inscription 
                 // mailManager->sendComfirmation($registrationEvent)
 
-                // on crére le message flash pour afficher sur la page suivante. 
+            }
+            else
+            {
+                $this->addFlash('error', $errors); 
             }
             
 

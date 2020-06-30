@@ -6,11 +6,29 @@
 
 {% block body %}
 
+{# affichage des flash message si il en a #}
+
+{# read and display all flash messages #}
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="flash-{{ label }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% else %}
+    <span> Pas de flash message ( juste pour le test ) </span>
+{% endfor %}
+
 <h1>{{ event.name }}</h1>
 
 <p>{{ event.description }}</p>
 
+
+
 <span>Nombre de place : {{ event.limitParticipant }}</span>
+
+<a href="{{ path('registration_event', {event: event.id}) }}" >S'inscrire</a>
 
 <footer>
     <a href="{{ path('home') }}">Retour à la liste d'event</a>
