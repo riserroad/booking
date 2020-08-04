@@ -108,6 +108,48 @@ class MainController extends AbstractController
     }
 
     /**
+     * @route("/cancel_registration_event/{event}" ,  name="cancel_registration_event")
+     */
+    public function cancelRegistrationEvent(Event $event, RegistrationEventRepository $repoRegistrationEvent)
+    {
+        $user = $this->getUser();
+        if ($user)
+        {
+            // l'utilisateur est connecté 
+
+            // on recupere l'enregistrement en recherchant avec user et id de l'event 
+            $registrationEvent = $repoRegistrationEvent->findOneBy(['event' => $event, 'user' => $user]);
+            // on vérifie si l'enregistrement est trouvé 
+            if ($registrationEvent)
+            {
+                // enregistrement existe, on peut supprimer de la BDD
+                $entityManager = $this->getDoctrine()->getManager(); 
+                $entityManager->remove($registrationEvent); 
+
+                $entityManager->flush();
+
+                $this->addFlash('notice', 'Annulation effectué'); 
+                
+            }
+            else
+            {
+                // enregistrement n'exite pas, on lance une exception
+
+                $this->addFlash('error', 'pas de registration'); 
+
+                // on lance la vérification de la liste d'attente
+
+            }
+        }
+        else 
+        {
+            $this->addFlash('error', 'utilisateur non connecté'); 
+        }
+
+        return $this->redirectToRoute('event', ['event' => $event->getId()]); 
+    }
+
+    /**
      * @route("/profile", name="profile")
      */
     public function profileDashboard()
