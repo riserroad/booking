@@ -26,7 +26,10 @@
 
 
 
-<span>Nombre de place : {{ event.limitParticipant }}</span>
+<span>Nombre de place : {{ event.limitParticipant }}</span></br>
+<span>Nombre d'inscrit : {{ event.numberParticipant }}</span></br>
+
+<hr>
 
 <a href="{{ path('registration_event', {event: event.id}) }}" >S'inscrire</a><br/>
 <a href="{{ path('cancel_registration_event' , {event: event.id}) }}" >se désincrire</a>

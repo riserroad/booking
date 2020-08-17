@@ -6,6 +6,7 @@ use App\Repository\EventRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\RegistrationEventRepository;
 
 /**
  * @ORM\Entity(repositoryClass=EventRepository::class)
@@ -54,13 +55,20 @@ class Event
      */
     private $registrationEvents;
 
-    public function __construct()
+    private $repoRegistrationEvent;
+
+    public function __construct(RegistrationEventRepository $repoRegistrationEvent)
     {
         $this->messages = new ArrayCollection();
         $this->registrationEvents = new ArrayCollection();
         $this->dateEvent = new \DateTime();
         $this->dateLimitRegistration = new \DateTime(); 
         $this->limitParticipant = 10;
+
+       
+        // le repo est null, j'obtient pas l'instance 
+        $this->repoRegistrationEvent = $repoRegistrationEvent;
+
     }
 
     public function __toString()
@@ -124,6 +132,16 @@ class Event
     public function getLimitParticipant(): ?int
     {
         return $this->limitParticipant;
+    }
+
+    public function getNumberParticipant()
+    {   
+        dump($this); 
+        // fonction commenté car bug 
+        // $nbParticipant =  count($this->repoRegistrationEvent->findBy(['event' => $this]));
+        $nbParticipant = 3 ; 
+
+        return $nbParticipant ; 
     }
 
     public function setLimitParticipant(int $limitParticipant): self
