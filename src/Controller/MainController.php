@@ -24,6 +24,8 @@ class MainController extends AbstractController
         // recupere la liste des event 
         $events = $this->getDoctrine()->getRepository(Event::class)->findAll(); 
 
+        
+
         return $this->render('main/index.html.twig', [
             'controller_name' => 'MainController',
             'events' => $events, 
@@ -34,8 +36,10 @@ class MainController extends AbstractController
      */
     public function event(Event $event)
     {
+        $user = $this->getUser(); 
         return $this->render('main/event.html.twig', [
             'event' => $event,
+            'user' => $user,
         ]); 
     }
 
@@ -94,10 +98,8 @@ class MainController extends AbstractController
                 $this->addFlash('error', $errors); 
             }
             
-
-            return $this->render('main/event.html.twig', [
-                'event' => $event,
-            ]); 
+            // changé en redirect to route ( risque de partage du lien qui fais mal ) 
+            return $this->redirectToRoute('event', ['event' => $event->getId()]); 
             
         }
 

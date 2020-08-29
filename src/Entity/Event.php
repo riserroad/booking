@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\RegistrationEventRepository;
+use Doctrine\ORM\EntityManager;
+use phpDocumentor\Reflection\Types\Boolean;
 
 /**
  * @ORM\Entity(repositoryClass=EventRepository::class)
@@ -55,9 +57,9 @@ class Event
      */
     private $registrationEvents;
 
-    private $repoRegistrationEvent;
+    private $em; 
 
-    public function __construct(RegistrationEventRepository $repoRegistrationEvent)
+    public function __construct(EntityManager $em)
     {
         $this->messages = new ArrayCollection();
         $this->registrationEvents = new ArrayCollection();
@@ -65,9 +67,8 @@ class Event
         $this->dateLimitRegistration = new \DateTime(); 
         $this->limitParticipant = 10;
 
-       
-        // le repo est null, j'obtient pas l'instance 
-        $this->repoRegistrationEvent = $repoRegistrationEvent;
+        $this->em = $em; 
+        
 
     }
 
@@ -136,12 +137,9 @@ class Event
 
     public function getNumberParticipant()
     {   
-        dump($this); 
-        // fonction commenté car bug 
-        // $nbParticipant =  count($this->repoRegistrationEvent->findBy(['event' => $this]));
-        $nbParticipant = 3 ; 
-
-        return $nbParticipant ; 
+        $nbParticipant = count($this->getRegistrationEvents());
+        dump($this->em); 
+        return $nbParticipant; 
     }
 
     public function setLimitParticipant(int $limitParticipant): self
@@ -149,6 +147,37 @@ class Event
         $this->limitParticipant = $limitParticipant;
 
         return $this;
+    }
+
+    public function userIsRegistered(?User $user) : bool
+    {
+        if (!$user)
+        {
+            return false; 
+        }
+        $registrationEvents = $this->getRegistrationEvents();
+        foreach ($registrationEvents as $registrationEvent) {
+            if ($registrationEvent->getUser() == $user)
+            {
+                return true; 
+            }
+        }
+        return false; 
+    }
+    public function userIsConfirmed(?User $user)
+    {
+        if (!$user)
+        {
+            return false;
+        }
+        $registrationEvents = $this->getRegistrationEvents();
+        foreach ($registrationEvents as $registrationEvent) {
+            if ($registrationEvent->getUser() == $user && $registrationEvent->getIsConfirmed())
+            {
+                return true; 
+            }
+        }
+        return false;   
     }
 
     /**

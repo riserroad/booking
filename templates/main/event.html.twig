@@ -26,13 +26,31 @@
 
 
 
+
+
 <span>Nombre de place : {{ event.limitParticipant }}</span></br>
 <span>Nombre d'inscrit : {{ event.numberParticipant }}</span></br>
 
+{% if event.userIsRegistered(app.user) %}
+<span>Vous etes inscrit à l'event</span>
+{% else %}
+<span>Vous n'est pas inscrit à l'event</span>
+{% endif %}
+
+{% if event.userIsConfirmed(app.user) %}
+<span>Votre inscription est confirmé</span>
+{% else %}
+<span>Vous etes dans la liste d'attente</span>
+{% endif %}
+
 <hr>
 
-<a href="{{ path('registration_event', {event: event.id}) }}" >S'inscrire</a><br/>
+{% if event.userIsRegistered(app.user) %}
+
 <a href="{{ path('cancel_registration_event' , {event: event.id}) }}" >se désincrire</a>
+{% else %}
+<a href="{{ path('registration_event', {event: event.id}) }}" >S'inscrire</a><br/>
+{% endif %}
 
 <footer>
     <a href="{{ path('home') }}">Retour à la liste d'event</a>
